@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Polyline, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import axios from 'axios';
 
 function permutations(array) {
   if (array.length === 0) return [[]];
@@ -32,6 +33,20 @@ const MapWithOptimizedRoute = () => {
   const [customers, setCustomers] = useState([]);
   const [optimizedRoute, setOptimizedRoute] = useState([]);
 
+  const getPosts = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/customer");
+      const responseData = response.data;
+      setPosts(responseData);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
   useEffect(() => {
     // Replace this with your logic to fetch customer data from your database
     const sampleCustomers = [
@@ -40,7 +55,7 @@ const MapWithOptimizedRoute = () => {
       { lat: 5, lng: 6 },
     ];
 
-    setCustomers(sampleCustomers);
+    setCustomers(customers);
   }, []);
 
   useEffect(() => {

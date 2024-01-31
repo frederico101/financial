@@ -65,7 +65,8 @@ const EmployeeTable = () => {
             <tr>
               <th>ID</th>
               <th>Name</th>
-              <th>Second Name</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
               <th>Created At</th>
               <th>Updated At</th>
             </tr>
@@ -75,7 +76,8 @@ const EmployeeTable = () => {
               <tr key={post.id}>
                 <td>{post.id}</td>
                 <td>{post.Name || "N/A"}</td>
-                <td>{post.SecondName || "N/A"}</td>
+                <td>{post.Latitude || "N/A"}</td>
+                <td>{post.Longitude || "N/A"}</td>
                 <td>{moment(post.createdAt).format('YYYY-MM-DD HH:mm')}</td>
                 <td>{moment(post.updatedAt).format('YYYY-MM-DD HH:mm')}</td>
               </tr>
