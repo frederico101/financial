@@ -1,19 +1,18 @@
 const express = require('express');
-const server = express();
+const app = express();
 
-const {sequelize} = require('./models')
+const routers = require('./api')
+const { sequelize } = require('./models')
 
-server.get('/', (req, res) => {
-
-    return res.json({mensagem: 'nserver api working nice'});
-
-});
+app.use(express.json())
+app.use('/', routers)
 
 sequelize.sync().then(()=>{
-    console.log('conected')
+    console.log('CONNECTED')
 })
 
 
-server.listen(3000, () => {
-    console.log('servidor ok')
+
+app.listen(3000, () => {
+    console.log('SERVER RUNNING')
 });

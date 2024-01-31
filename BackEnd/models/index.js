@@ -5,7 +5,7 @@ const Customer = require('./customer')
 const customer = Customer(sequelize, Sequelize.DataTypes)
 
 const db = {
-    Customer,
+    customer,
     sequelize
 }
 

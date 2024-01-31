@@ -8,8 +8,10 @@ const customer = (sequelize, DataTypes)=> {
         SecondName: {
             type: DataTypes.STRING
         }
-
-    })
+    },
+       {
+          tableName: 'customer'
+       })
 
     return Customer;
 }

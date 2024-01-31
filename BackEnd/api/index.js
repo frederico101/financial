@@ -1,13 +1,12 @@
 const express = require('express')
-const customerRouter = require('./api/customer/customer')
+const customerRouter = require('./customer')
 const router = express.Router()
 
 router.get('/', (req, res) => {
 
-    return res.json({mensagem: 'testes'});
+    return res.send('working nice');
 
 });
 
-router.use('/customer', customerRouter)
-
-router.use()
+router.use('/', customerRouter)
+module.exports = router
