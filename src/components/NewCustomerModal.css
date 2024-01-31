@@ -1,4 +1,4 @@
-/* NewCustomerModal.css */
+
 .modal {
   display: none;
   position: fixed;
@@ -13,10 +13,11 @@
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
+  margin: 10% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+  max-width: 400px;
 }
 
 .close {
@@ -37,7 +38,28 @@
   display: block;
 }
 
-h2
-{
-  color:green;
+h2 {
+  color: green;
+}
+
+input {
+  width: 100%;
+  padding: 0.2rem;
+  margin-bottom: 0.5rem; 
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 0.2rem;
+}
+
+label {
+  color: green;
 }

@@ -38,7 +38,8 @@ const NewCustomerModal = ({ showModal, closeModal, updateTable }) => {
   };
 
   return (
-    <div className={`modal ${showModal ? "show" : ""}`}>
+   <div className="container">
+      <div className={`modal ${showModal ? "show" : ""}`} style={{ zIndex: showModal ? 1000 : -1 }}>
       <div className="modal-content">
         <span className="close" onClick={closeModal}>&times;</span>
         <h2>Add New Customer</h2>
@@ -51,10 +52,11 @@ const NewCustomerModal = ({ showModal, closeModal, updateTable }) => {
             Second Name:
             <input type="text" name="secondName" value={formData.SecondName} onChange={handleChange} />
           </label>
-          <button type="submit">Submit</button>
+          <button className="submit" type="submit">Submit</button>
         </form>
       </div>
     </div>
+   </div>
   );
 };
 
