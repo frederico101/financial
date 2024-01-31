@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom'
 
 import  EnterpriseCustomer  from './components/EnterpriseCustomer.tsx'
 import  Post  from './Post/Post.tsx'
+import MapContainer from './components/routeComponent/MapContainer.tsx'
 
 const router = createBrowserRouter([ 
    {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/new",
         element: <Post/>
+      },
+      {
+        path: "/MapContainer",
+        element: <MapContainer/>
       },
     ],
   },
