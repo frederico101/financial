@@ -1,0 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace;
+    color: green;
+    z-index: 1;
+}
+
+.calcRouterButton {
+    margin: 0;
+    margin-bottom: 12px;
+    padding: 9px;
+    color: blue;
+}
