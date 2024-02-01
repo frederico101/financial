@@ -46,7 +46,8 @@ const NewCustomerModal = ({ showModal, closeModal, updateTable }) => {
         <span className="close" onClick={closeModal}>&times;</span>
         <h2>Add New Customer</h2>
         <form onSubmit={handleSubmit}>
-          <label>
+          <div className="input-container">
+          <label className="addCustomerLabel">
             Name:
             <input type="text" name="name" value={formData.Name} onChange={handleChange} />
           </label>
@@ -62,6 +63,7 @@ const NewCustomerModal = ({ showModal, closeModal, updateTable }) => {
           </label>
           
           <button className="submit" type="submit">Submit</button>
+          </div>
         </form>
       </div>
     </div>

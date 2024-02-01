@@ -48,10 +48,6 @@ input {
   margin-bottom: 0.5rem; 
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-}
 
 .submit {
   align-items: center;
