@@ -6,7 +6,8 @@ import "./NewCustomerModal.css";
 const NewCustomerModal = ({ showModal, closeModal, updateTable }) => {
   const [formData, setFormData] = useState({
     Name: undefined,
-    SecondName: undefined,
+    Latitude: undefined,
+    Longitude: undefined,
   });
 
   const handleChange = (e) => {
@@ -24,7 +25,8 @@ const NewCustomerModal = ({ showModal, closeModal, updateTable }) => {
       const response = await axios.post("http://localhost:3000/customer", {
         
         Name: formData.name,
-        SecondName: formData.secondName,
+        Latitude: formData.latitude,
+        Longitude: formData.longitude,
       });
       if(response.status == 200){
             alert(response.data)     
@@ -44,15 +46,24 @@ const NewCustomerModal = ({ showModal, closeModal, updateTable }) => {
         <span className="close" onClick={closeModal}>&times;</span>
         <h2>Add New Customer</h2>
         <form onSubmit={handleSubmit}>
-          <label>
+          <div className="input-container">
+          <label className="addCustomerLabel">
             Name:
             <input type="text" name="name" value={formData.Name} onChange={handleChange} />
           </label>
+
           <label>
-            Second Name:
-            <input type="text" name="secondName" value={formData.SecondName} onChange={handleChange} />
+            Latitude:
+            <input type="text" name="latitude" value={formData.Latitude} onChange={handleChange} />
           </label>
+          
+          <label>
+            Longitude:
+            <input type="text" name="longitude" value={formData.Longitude} onChange={handleChange} />
+          </label>
+          
           <button className="submit" type="submit">Submit</button>
+          </div>
         </form>
       </div>
     </div>

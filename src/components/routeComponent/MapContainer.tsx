@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Polyline, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
+import Leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import Modal from 'react-modal';
+import axios from 'axios';
+import './MapContainer.css'
 
 function permutations(array) {
   if (array.length === 0) return [[]];
@@ -15,7 +18,7 @@ function permutations(array) {
 }
 
 const calculateRoute = (customers) => {
-  const points = [[0, 0], ...customers];
+  const points = customers;
   const allRoutes = permutations(points);
   const distances = Array.from(allRoutes, (route) =>
     route.reduce((acc, point, index) => (index === 0 ? 0 : acc + L.latLng(point).distanceTo(L.latLng(route[index - 1]))), 0)
@@ -25,52 +28,89 @@ const calculateRoute = (customers) => {
   const minDistanceIndex = distances.indexOf(minDistance);
   const bestRoute = Array.from(allRoutes)[minDistanceIndex];
 
-  return { route: bestRoute, distance: minDistance };
+  // Ensure (0,0) is the first point in the route
+  const routeWithStartingPoint = [points[0], ...bestRoute.filter(point => point[0] !== points[0][0])];
+
+  return { route: routeWithStartingPoint, distance: minDistance };
 };
 
 const MapWithOptimizedRoute = () => {
   const [customers, setCustomers] = useState([]);
   const [optimizedRoute, setOptimizedRoute] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
-    // Replace this with your logic to fetch customer data from your database
-    const sampleCustomers = [
-      { lat: 1, lng: 2 },
-      { lat: 3, lng: 4 },
-      { lat: 5, lng: 6 },
-    ];
+    const fetchCustomers = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/customer');
+        const responseData = response.data;
+        setCustomers(responseData);
+      } catch (error) {
+        console.error('Error fetching customers:', error);
+      }
+    };
 
-    setCustomers(sampleCustomers);
+    fetchCustomers();
   }, []);
 
   useEffect(() => {
     if (customers.length > 0) {
-      const { route } = calculateRoute(customers);
-      setOptimizedRoute(route);
+      const calculatedRoute = calculateRoute(
+        customers.map((customer) => [parseFloat(customer.Latitude), parseFloat(customer.Longitude)])
+      );
+      setOptimizedRoute(calculatedRoute);
     }
   }, [customers]);
 
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+
   return (
-    <MapContainer center={[0, 0]} zoom={13} style={{ height: '400px', width: '100%' }}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      {optimizedRoute.length > 0 && (
-        <>
-          <Polyline positions={optimizedRoute} color="blue" />
-          {customers.map((customer, index) => (
-            <Marker key={index} position={[customer.lat, customer.lng]}>
-              <Popup>
-                Customer {index + 1} <br />
-                Latitude: {customer.lat} <br />
-                Longitude: {customer.lng}
-              </Popup>
-            </Marker>
-          ))}
-        </>
-      )}
-    </MapContainer>
+    <>
+
+      <button className='calcRouterButton' onClick={openModal}>
+       Calculate Optimized Route
+      </button>
+
+      <MapContainer center={[0, 0]} zoom={1} style={{ height: '400px', width: '100%' }}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        {optimizedRoute && optimizedRoute.route && (
+          <Polyline positions={optimizedRoute.route} color="blue" />
+        )}
+        {customers.map((customer, index) => (
+          <Marker key={index} position={[parseFloat(customer.Latitude), parseFloat(customer.Longitude)]}>
+            <Popup>
+              Customer {index + 1} <br />
+              Latitude: {customer.Latitude} <br />
+              Longitude: {customer.Longitude}
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Visitations Order"
+      >
+        <button className='calcRouterButton' onClick={closeModal}>close</button>
+        <h2>Visitations Order</h2>
+        {optimizedRoute && optimizedRoute.route && optimizedRoute.route.length > 0 ? (
+          <ul>
+            {optimizedRoute.route.map((point, index) => (
+              <li key={index}>
+                Customer {point[0]}, Latitude: {point[1]}, Longitude: {point[2]}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Any route to present.</p>
+        )}
+      </Modal>
+    </>
   );
 };
 

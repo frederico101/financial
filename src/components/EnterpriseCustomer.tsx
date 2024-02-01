@@ -6,6 +6,7 @@ import 'datatables.net';
 import NewCustomerModal from "./NewCustomerModal";
 import "./NewCustomerModal.css";
 import moment from "moment";
+import './enterpriseCustomer.css'
 
 const EmployeeTable = () => {
   const [posts, setPosts] = useState([]);
@@ -57,27 +58,29 @@ const EmployeeTable = () => {
 
   return (
     <div>
-      <button onClick={openModal}>Add Customer</button>
-
       {posts.length > 0 ? (
         <table id="custumerTable" className="display">
           <thead>
             <tr>
               <th>ID</th>
               <th>Name</th>
-              <th>Second Name</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
               <th>Created At</th>
               <th>Updated At</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {posts.map((post) => (
               <tr key={post.id}>
                 <td>{post.id}</td>
-                <td>{post.Name || "N/A"}</td>
-                <td>{post.SecondName || "N/A"}</td>
+                <td>{post.Name}</td>
+                <td>{post.Latitude}</td>
+                <td>{post.Longitude}</td>
                 <td>{moment(post.createdAt).format('YYYY-MM-DD HH:mm')}</td>
                 <td>{moment(post.updatedAt).format('YYYY-MM-DD HH:mm')}</td>
+                <td><button className="addCustomer" onClick={openModal}>Add Customer</button></td>
               </tr>
             ))}
           </tbody>

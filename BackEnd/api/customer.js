@@ -17,8 +17,8 @@ router.get('/customer', async (req, res) => {
 
 router.post('/customer', async (req, res) => {
   try {
-    const { Name, SecondName } = req.body;
-    await customer.create({ Name, SecondName });
+    const { Name, Latitude, Longitude } = req.body;
+    await customer.create({ Name, Latitude, Longitude });
     res.send('New user added with success');
   } catch (error) {
     console.error(error);

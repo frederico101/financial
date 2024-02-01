@@ -6,9 +6,13 @@ const customer = (sequelize, DataTypes)=> {
             type: DataTypes.STRING,
             allowNull: true,
           },
-          SecondName: {
+          Latitude: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: false,
+          },
+          Longitude: {
+            type: DataTypes.STRING,
+            allowNull: false,
           },
           createdAt: {
             type: DataTypes.DATE,
